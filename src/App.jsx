@@ -1,34 +1,32 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"
 import api from './services/api'
+import DisplayCountries from "./components/DisplayCountries"
 
 const App = () => {
-  const [items, setItems] = useState([])
-
+  const [countries, setCountries] = useState([])
+  const [newValue, setNewValue] = useState('')
 
   useEffect(()=>{
     api
       .getAll()
-      .then(initialItems =>{
-        setItems(initialItems)
+      .then(initialCountries =>{
+        setCountries(initialCountries)
       })
   }, [])
-  //   {
-  //   const fetchItems = async () => {
-  //     try {
-  //       const data = await api.getAll();
-  //       setItems(data);
-  //     } catch (error) {
-  //       console.error("Failed to fetch items:", error);
-  //     }
-  //   };
-  //   fetchItems();
-  // }
 
+  const handleSearchChange = (event)=>{
+    setNewValue(event.target.value)
+  }
+
+  const filteredCountries = newValue.trim() === ""
+    ? []
+    : countries.filter(country => country.name.common.toLowerCase().includes(newValue.toLowerCase()))
+    
   return(
     <div>
-      {items.map(item=>{
-        <div key={item.id}>{item.name}</div>
-      })}
+      find countries
+      <input type="search" value={newValue} onChange={handleSearchChange} />
+      <DisplayCountries countries={filteredCountries}/>
     </div>
   )
 }

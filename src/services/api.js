@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = 'http://localhost:3001/items'
+const baseUrl = 'https://studies.cs.helsinki.fi/restcountries/api/all'
 
 const getAll = () =>{
     const request = axios.get(baseUrl)
